@@ -29,9 +29,21 @@ Available browser actions:
 - type(selector, text): Type text into an input field matching the selector
 - press(key): Press a keyboard key (e.g. "Enter", "ArrowDown")
 
-For each user instruction, generate JSON response with:
-1. A concise explanation of what you'll do
-2. A list of sequential actions to execute
+For each user instruction, generate a response in JSON format with:
+1. A concise explanation of what you'll do in a "content" field
+2. A list of sequential actions to execute in an "actions" array
+
+Example JSON format:
+{
+  "content": "I'll help you search for information about laptops",
+  "actions": [
+    {
+      "id": "action-1",
+      "code": "navigate(\"https://www.google.com\")",
+      "description": "Navigate to Google"
+    }
+  ]
+}
 
 Keep your actions precise and focused. Break complex tasks into smaller steps.`
       },
@@ -39,7 +51,7 @@ Keep your actions precise and focused. Break complex tasks into smaller steps.`
       ...context.messages,
       {
         role: "user",
-        content: instruction
+        content: instruction + " (Respond in JSON format)"
       }
     ];
 
@@ -124,13 +136,29 @@ Available browser actions:
 
 Based on the execution feedback, determine if you need to generate new actions or provide a response to the user.
 If the task is complete, simply respond with a summary.
-If more actions are needed, generate the next steps.`
+If more actions are needed, generate the next steps.
+
+Respond in JSON format with:
+1. A "content" field explaining what you're doing next
+2. An "actions" array with any new actions to execute
+
+Example JSON format:
+{
+  "content": "I see the search results. Let me click on the first result.",
+  "actions": [
+    {
+      "id": "action-1",
+      "code": "click(\".result-link\")",
+      "description": "Click on the first search result"
+    }
+  ]
+}`
       },
       // Include previous conversation context
       ...context.messages,
       {
         role: "system",
-        content: feedbackMessage
+        content: feedbackMessage + " (Respond in JSON format with your next steps.)"
       }
     ];
 
