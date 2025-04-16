@@ -1,3 +1,6 @@
+/* Import Material Icons font */
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -10,4 +13,44 @@
   body {
     @apply font-sans antialiased bg-background text-foreground;
   }
+}
+
+/* Custom utility classes */
+.code-font {
+  font-family: 'Roboto Mono', monospace;
+}
+
+/* Colors for action statuses */
+.bg-success-50 {
+  background-color: #e8f5e9;
+}
+.text-success-500, .text-success-600 {
+  color: #4caf50;
+}
+.bg-danger-50 {
+  background-color: #ffebee;
+}
+.text-danger-500, .text-danger-600 {
+  color: #f44336;
+}
+.bg-primary-50 {
+  background-color: #e3f2fd;
+}
+.bg-primary-100 {
+  background-color: #bbdefb;
+}
+.text-primary-600 {
+  color: #1e88e5;
+}
+.bg-primary-500, .bg-primary-600, .bg-primary-700 {
+  background-color: #2196f3;
+}
+.bg-neutral-50 {
+  background-color: #fafafa;
+}
+.bg-neutral-100, .bg-neutral-200 {
+  background-color: #f5f5f5;
+}
+.text-neutral-600, .text-neutral-700 {
+  color: #757575;
 }
