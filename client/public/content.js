@@ -37,8 +37,27 @@ function executeAction(actionCode) {
   const navigateMatch = actionCode.match(/navigate\("([^"]+)"\)/);
   if (navigateMatch) {
     const url = navigateMatch[1];
-    window.location.href = url;
-    return { type: "navigate", url };
+    // Use history.pushState to navigate without opening a new tab
+    try {
+      // Check if URL is valid and absolute
+      const isAbsoluteUrl = new URL(url).origin !== 'null';
+      
+      if (isAbsoluteUrl) {
+        // For absolute URLs, navigate directly but don't open a new tab
+        window.location.href = url;
+      } else {
+        // For relative URLs, use history API
+        history.pushState({}, "", url);
+        // Dispatch popstate event to notify the application of the navigation
+        window.dispatchEvent(new PopStateEvent('popstate', { state: {} }));
+      }
+      
+      return { type: "navigate", url, currentUrl: window.location.href };
+    } catch (e) {
+      // If URL is invalid, fallback to regular navigation
+      window.location.href = url;
+      return { type: "navigate", url, method: "fallback" };
+    }
   }
   
   const clickMatch = actionCode.match(/click\("([^"]+)"\)/);

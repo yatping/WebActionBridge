@@ -75,7 +75,7 @@ Keep your actions precise and focused. Break complex tasks into smaller steps.`
       // Try to extract content and actions from whatever format we received
       const content = parsedResponse.content || parsedResponse.explanation || parsedResponse.message || "I'll help you with that task.";
       const actions = Array.isArray(parsedResponse.actions) ? parsedResponse.actions : 
-                      Array.isArray(parsedResponse.steps) ? parsedResponse.steps.map(step => {
+                      Array.isArray(parsedResponse.steps) ? parsedResponse.steps.map((step: any) => {
                         return {
                           id: `action-${Math.random().toString(36).substring(2, 9)}`,
                           code: step.code || step.action || step,
@@ -85,7 +85,7 @@ Keep your actions precise and focused. Break complex tasks into smaller steps.`
       
       return {
         content,
-        actions: actions.map((action, index) => ({
+        actions: actions.map((action: any, index: number) => ({
           id: action.id || `action-${index + 1}`,
           code: action.code,
           description: action.description || "Execute browser action"
